@@ -1,0 +1,15 @@
+name: Smart Router
+repo: https://github.com/som4tress/opencode-smart-router
+tagline: Keep short sessions local on Ollama/llama.cpp/vLLM, hand long ones to OpenRouter
+description: >
+  Local-first hand-off router. Watches each OpenCode session and — when the
+  context grows past a token threshold, the agent loop runs too many model
+  calls in one turn, or a configured cost model predicts the next local
+  prefill would take too long — switches that session to an OpenRouter
+  fallback and releases the cache it held on the local engine. The model
+  itself is never unloaded: only the KV cache attributable to the handing-off
+  session is released (llama.cpp per-slot erase), engines that cannot
+  attribute cache to a session are honest no-ops with zero HTTP requests, and
+  engine-wide flushes are opt-in via an eviction scope setting. Config
+  hot-reloads from router.json without a plugin reload; per-target thresholds
+  and a prefill budget (paramsB × tokens vs TFLOPS) are supported.
